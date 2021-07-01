@@ -1,5 +1,6 @@
 'use strict';
 
+const db = require('./conn');
 class Todo {
     constructor(id, is_complete, task_content, user_id) {
         this.id = id;
@@ -12,7 +13,8 @@ class Todo {
         try {
             const response = await db.any(
                 `SELECT * FROM tasks
-                WHERE user_id=${user_id};`
+                WHERE user_id=${user_id}
+                ORDER by id;`
             )
             return response;
         } catch(error) {
@@ -39,7 +41,10 @@ class Todo {
 
     static async updateTask(id, is_complete) {
         try {
-            const completed = !is_complete;
+            const completed = !eval(is_complete);
+            console.log({is_complete})
+            console.log({completed})
+            console.log('ID in updateTask' ,id)
             const response = await db.result(
                 `UPDATE tasks
                 SET is_complete = ${completed}
@@ -64,3 +69,5 @@ class Todo {
         }
     }
 }
+
+module.exports = Todo;

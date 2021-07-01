@@ -29,22 +29,18 @@ class User {
         try {
             const query = `SELECT * FROM users WHERE email = '${this.email}';`;
             const response = await db.one(query);
+            const isValid = this.checkPassword(response.password);
             if (!!isValid) {
-                const { id, name, email, }
+                const { id, name, email} = response;
+                return { isValid, user_id: id, name, email};
+            } else {
+                return { isValid };
             }
-            return response;
         } catch (error) {
             console.log("ERROR: ", error);
             return error;
         }
-
-
-
     }
-
-
-
-
 
 }
 module.exports = User;
