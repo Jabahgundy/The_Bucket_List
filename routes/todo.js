@@ -26,7 +26,7 @@ router.get('/', async(req, res) => {
             }
         })
     } else{
-        res.redirect('/');
+        res.redirect('back');
     }
 
    
@@ -34,7 +34,8 @@ router.get('/', async(req, res) => {
 
 router.post('/add', async (req, res) => {
     const { task_content, user_id } = req.body;
-    const response = await TodoModel.addTask( task_content, user_id );
+    const taskString = task_content[0] + task_content.slice(1).replace(/'/g, "''")
+    const response = await TodoModel.addTask( taskString, user_id );
     res.redirect('/todos');
 });
 
