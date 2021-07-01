@@ -33,5 +33,9 @@ server.listen(port, hostname, () => {
 });
 
 const rootController = require('./routes/index');
+const todoController = require('./routes/todo');
+const userController = require('./routes/users');
 
 app.use('/', rootController);
+app.use('/todos', todoController);
+app.use('/users', userController);
